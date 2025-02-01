@@ -17,12 +17,21 @@ class LoginPage extends StatelessWidget {
   void login(BuildContext context) async {
     // AuthService instance
     final authService = AuthService();
+    // Show loading dialog while attempting to login
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevent dialog from closing when tapping outside
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
 
     try {
       await authService.signInWithEmailPassword(
         _emailController.text,
         _passwordController.text,
       );
+      // Pop the loading dialog after successful login
+      Navigator.pop(context);
     } catch (e) {
       showDialog(
         context: context,

@@ -2,6 +2,8 @@ import 'package:chatapp/components/my_button.dart';
 import 'package:chatapp/components/my_textfield.dart';
 import 'package:flutter/material.dart';
 
+import '../auth/auth_service.dart';
+
 class RegisterPage extends StatelessWidget {
   // email & Password controller
   final TextEditingController _emailController = TextEditingController();
@@ -15,9 +17,63 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, required this.onTap});
 
   // login Function
-  void register() {
-    // doing later..
+  void register(BuildContext context) async {
+    // AuthService instance
+    final authService = AuthService();
+
+    // password match -> Create user
+    if (_passwordController.text == _confirmpasswordController.text) {
+      // Check if email is in correct format (simple validation)
+      final email = _emailController.text;
+      if (!_isValidEmail(email)) {
+        _showErrorDialog(context, "Please enter a valid email.");
+        return;
+      }
+
+      try {
+        // Create user
+        await authService.signUpWithEmailPassword(
+          email,
+          _passwordController.text,
+        );
+        // Optionally, show success message or navigate to login page
+        Navigator.pushReplacementNamed(context, '/login'); // For example
+      } catch (e) {
+        _showErrorDialog(context, e.toString());
+      }
+    }
+    // password don't match then show error
+    else {
+      _showErrorDialog(context, "Password did not match");
+    }
   }
+
+  bool _isValidEmail(String email) {
+    // Simple email validation (you can improve the regex as per your need)
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    return emailRegex.hasMatch(email);
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Error"),
+        content: Text(message), // Display the error message
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +129,7 @@ class RegisterPage extends StatelessWidget {
               height: 10,
             ),
             // login
-            MyButton(text: "Register", onTap: register),
+            MyButton(text: "Register", onTap: () => register(context)),
             const SizedBox(
               height: 10,
             ),
