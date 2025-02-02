@@ -1,7 +1,9 @@
+import 'package:chatapp/pages/messageRequest_page.dart';
 import 'package:chatapp/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
 import '../auth/auth_service.dart';
+import '../pages/archive_Page.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -50,9 +52,6 @@ class MyDrawer extends StatelessWidget {
                   title: Text("S E T T I N G S"),
                   leading: Icon(Icons.settings),
                   onTap: (){
-                    // pop the Drawer
-                    // Navigator.pop(context);
-                    
                     // push to settings page
                     Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
                   },
@@ -63,7 +62,10 @@ class MyDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text("R E Q U E S T S"),
                   leading: Icon(Icons.messenger_outline),
-                  onTap: (){},
+                  onTap: (){
+                    // push to request page
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MessagerequestPage()));
+                  },
                 ),
               ),
               Padding(
@@ -71,7 +73,10 @@ class MyDrawer extends StatelessWidget {
                 child: ListTile(
                   title: Text("A R C H I V E"),
                   leading: Icon(Icons.archive),
-                  onTap: (){},
+                  onTap: (){
+                    // push to Archive page
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ArchivePage()));
+                  },
                 ),
               ),
             ],
