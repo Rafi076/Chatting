@@ -6,9 +6,8 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // get current user
-  // Get the currently logged-in user (✅ NEW METHOD)
-  User? getCurrentUser(){
+  // Get the currently logged-in user
+  User? getCurrentUser() {
     return _auth.currentUser;
   }
 
@@ -22,21 +21,15 @@ class AuthService {
         password: password,
       );
 
-      // Save user info if it doesn't already exist
-      _firestore.collection("Users").doc(userCredential.user!.uid).set({
-        'uid': userCredential.user!.uid,
-        'email': email,
-      }, SetOptions(merge: true)); // Prevents overwriting existing data
-
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
   }
 
-  // Sign up
+  // Sign up with Name, Email & Password ✅ (Fixed)
   Future<UserCredential> signUpWithEmailPassword(
-      String email, String password) async {
+      String email, String password, String name) async {
     try {
       UserCredential userCredential =
       await _auth.createUserWithEmailAndPassword(
@@ -45,9 +38,10 @@ class AuthService {
       );
 
       // Save user info in Firestore
-      _firestore.collection("Users").doc(userCredential.user!.uid).set({
+      await _firestore.collection("Users").doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
         'email': email,
+        'name': name, // Store user name
       });
 
       return userCredential;
@@ -57,6 +51,19 @@ class AuthService {
   }
 
 
+  // Fetch user name from Firestore
+  Future<String?> getUserName() async {
+    final user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc =
+      await _firestore.collection("Users").doc(user.uid).get();
+
+      if (userDoc.exists && userDoc.data() != null) {
+        return userDoc["name"];
+      }
+    }
+    return null;
+  }
 
   // Sign out
   Future<void> signOut() async {

@@ -10,6 +10,7 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmpasswordController =
       TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   // tap to go to register page
   void Function()? onTap;
@@ -35,6 +36,7 @@ class RegisterPage extends StatelessWidget {
         await authService.signUpWithEmailPassword(
           email,
           _passwordController.text,
+          _nameController.text
         );
         // Optionally, show success message or navigate to login page
         Navigator.pushReplacementNamed(context, '/login'); // For example
@@ -101,6 +103,14 @@ class RegisterPage extends StatelessWidget {
             ),
             const SizedBox(
               height: 25,
+            ),
+            MyTextfield(
+              hinText: "Nick Name",
+              obscureText: false,
+              controller: _nameController,
+            ),
+            const SizedBox(
+              height: 10,
             ),
             // email
             MyTextfield(
