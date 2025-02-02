@@ -2,7 +2,7 @@ import 'package:chatapp/pages/messageRequest_page.dart';
 import 'package:chatapp/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 
-import '../auth/auth_service.dart';
+import '../services/auth/auth_service.dart';
 import '../pages/archive_Page.dart';
 
 class MyDrawer extends StatelessWidget {
