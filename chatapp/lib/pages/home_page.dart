@@ -7,12 +7,6 @@ import 'package:flutter/widgets.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  void logout(){
-    // get auth service
-    final _auth = AuthService();
-    _auth.signOut();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +15,7 @@ class HomePage extends StatelessWidget {
         centerTitle: true,
         title: Text("CHAT LIST"),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        actions: [
-          // logout button
-          IconButton(onPressed: logout, icon: Icon(Icons.logout))
-        ],
+
       ),
       drawer: MyDrawer(),
 
