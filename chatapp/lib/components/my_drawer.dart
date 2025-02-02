@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+
+class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      child:  Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              // logo
+              DrawerHeader(
+                  child: Center(
+                    child: Icon(
+                      Icons.drag_indicator_sharp,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 50,
+                    ),
+                  )
+              ),
+
+              //Home list tile
+              Padding(
+                padding: const EdgeInsets.only(left : 25),
+                child: ListTile(
+                  title: Text("C H A T"),
+                  leading: Icon(Icons.mark_unread_chat_alt_outlined),
+                  onTap: (){
+                    // pop the Drawer
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left : 25),
+                child: ListTile(
+                  title: Text("S E T T I N G S"),
+                  leading: Icon(Icons.settings),
+                  onTap: (){
+                    // pop the Drawer
+                    Navigator.pop(context);
+                    
+                    // push to settings page
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => settingsPage()))
+                  },
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left : 25),
+                child: ListTile(
+                  title: Text("R E Q U E S T S"),
+                  leading: Icon(Icons.messenger_outline),
+                  onTap: (){},
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left : 25),
+                child: ListTile(
+                  title: Text("A R C H I V E"),
+                  leading: Icon(Icons.archive),
+                  onTap: (){},
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left : 25),
+            child: ListTile(
+              title: Text("L O G O U T"),
+              leading: Icon(Icons.logout),
+              onTap: (){},
+            ),
+          ),
+
+
+          // settings
+
+          // logout
+        ],
+      ),
+    );
+  }
+}

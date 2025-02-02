@@ -1,4 +1,5 @@
 import 'package:chatapp/auth/auth_service.dart';
+import 'package:chatapp/components/my_drawer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,13 +19,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Home"),
+        title: Text("CHAT LIST"),
         backgroundColor: Theme.of(context).colorScheme.primary,
         actions: [
           // logout button
           IconButton(onPressed: logout, icon: Icon(Icons.logout))
         ],
       ),
+      drawer: MyDrawer(),
 
     );
   }
