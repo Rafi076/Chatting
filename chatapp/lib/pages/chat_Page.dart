@@ -10,8 +10,10 @@ class ChatPage extends StatelessWidget {
   //final String reciverName;
   final String reciverID;
 
-   ChatPage(
-      {super.key, required this.reciverEmail,required this.reciverID }); // required this.reciverName
+  ChatPage(
+      {super.key,
+      required this.reciverEmail,
+      required this.reciverID}); // required this.reciverName
 
   // text controller
   final TextEditingController _messageController = TextEditingController();
@@ -22,13 +24,12 @@ class ChatPage extends StatelessWidget {
 
   // send message
   void sendMessage() async {
-    if (_messageController.text.isNotEmpty) {  // ✅ Correct condition
+    if (_messageController.text.isNotEmpty) {
+      // ✅ Correct condition
       await _chatService.sendMessage(reciverID, _messageController.text);
       _messageController.clear();
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +42,8 @@ class ChatPage extends StatelessWidget {
       body: Column(
         children: [
           // display all the message
-          Expanded(child: _buildMessageList(),
+          Expanded(
+            child: _buildMessageList(),
           ),
 
           // userinput
@@ -50,44 +52,61 @@ class ChatPage extends StatelessWidget {
       ),
     );
   }
- //built Message List
-Widget _buildMessageList(){
+
+  //built Message List
+  Widget _buildMessageList() {
     String senderID = _authService.getCurrentUser()!.uid;
-    return StreamBuilder(stream: _chatService.getMessages(reciverID, senderID),
-        builder: (context, snapshot){
-      // error
+    return StreamBuilder(
+        stream: _chatService.getMessages(reciverID, senderID),
+        builder: (context, snapshot) {
+          // error
           if (snapshot.hasError) {
             return const Text("Error loading messages");
           }
 
-
           // loading
-          if(snapshot.connectionState ==  ConnectionState.waiting){
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Text("Loading..");
           }
 
           // retun list view
           return ListView(
-            children: snapshot.data!.docs.map((doc) => _buildMessageItem(doc)).toList(),
-
+            children: snapshot.data!.docs
+                .map((doc) => _buildMessageItem(doc))
+                .toList(),
           );
         });
-}
+  }
 
 // build message item
-Widget _buildMessageItem(DocumentSnapshot doc){
+  Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-    return Text(data["message"]);  // ✅ Correct key
+    // is current user
+    bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
 
-}
+    // align message to the right if sender is the current user other wise left
+    var alignment =
+        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+    return Container(
+        alignment: alignment,
+        child: Column(
+          crossAxisAlignment: isCurrentUser? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          children: [
+            Text(data["message"])
+          ],
+        ),
+    );
+  }
 
 // build message input
-Widget _buildUserInput(){
+  Widget _buildUserInput() {
     return Row(
       children: [
         // textfield should take up most of the space
-        Expanded(child: MyTextfield(
+        Expanded(
+            child: MyTextfield(
           controller: _messageController,
           hinText: "Type a message",
           obscureText: false,
@@ -96,5 +115,5 @@ Widget _buildUserInput(){
         IconButton(onPressed: sendMessage, icon: const Icon(Icons.send))
       ],
     );
-}
+  }
 }
