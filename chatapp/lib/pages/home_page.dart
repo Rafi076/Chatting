@@ -15,13 +15,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         centerTitle: true,
         title: const Text("CHAT LIST"),
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.grey,
-        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       drawer: const MyDrawer(),
       body: _buildUserList(),
@@ -76,16 +73,16 @@ class HomePage extends StatelessWidget {
   // Build individual list tile for user
   Widget _buildUserListItem(
       Map<String, dynamic> userData, BuildContext context) {
-    if(userData["email"] != _authService.getCurrentUser()!.email){
+    if(userData["name"] != _authService.getCurrentUser()!.email){
       return UserTile(
-        text: userData["email"],
+        text: userData["name"],
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => ChatPage(
                 reciverEmail: userData["email"],
-                //reciverName: userData["name"],
+                reciverName: userData["name"],
                 reciverID: userData["uid"]
               ),
             ),

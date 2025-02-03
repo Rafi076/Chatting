@@ -8,19 +8,21 @@ import 'package:flutter/material.dart';
 
 class ChatPage extends StatefulWidget {
   final String reciverEmail;
-  //final String reciverName;
+  final String reciverName;
   final String reciverID;
 
   ChatPage(
       {super.key,
       required this.reciverEmail,
-      required this.reciverID});
+      required this.reciverID,
+        required this.reciverName
+      });
   @override
   State<ChatPage> createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
- // required this.reciverName
+
   final TextEditingController _messageController = TextEditingController();
 
   // chat & auth service
@@ -91,7 +93,7 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.grey,
         elevation: 0,
-        title: Text(widget.reciverEmail), // we will use name-->  reciverName
+        title: Text(widget.reciverName), // we will use name-->  reciverName
       ),
       body: Column(
         children: [
