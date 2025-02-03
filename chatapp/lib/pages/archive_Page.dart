@@ -9,7 +9,9 @@ class ArchivePage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text("Archive"),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey,
+        elevation: 0,
         actions: [],
       ),
     );
